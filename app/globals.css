@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+:root {
+  --white: #fff;
+  --black: #000;
+  --bg-primary: #646cff;
+  --bg-main: #E2E8F0;
+} 
+
+body {
+  background-color: var(--bg-main);
+}
+
+.main_container {
+  padding: 200px 10px;
+  /* background: red; */
+  position: relative;
+  overflow: hidden;
+}
+.welcome {
+  font-size: 5vw;
+  position: absolute;
+  bottom: -100px;
+  right: 20%;
+  animation: welcome 2s linear forwards;
+}
+
+@keyframes welcome {
+  0%{
+    bottom: -100px;
+  }
+  70%{
+    bottom: 0px;
+    right: 20%;
+  }
+  100%{
+    bottom: 0px;
+    right: -1000px;
+  }
+}
