@@ -6,22 +6,29 @@ import { IoIosArrowForward } from "react-icons/io";
 import "@/app/ui/Auth/signIn/signIn.scss"
 import { signIn } from '@/api-service/auth.service';
 import { AuthPromise } from '@/app/types/auth.types';
-import { redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { Notification } from '@/helpers/notifications.helper';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const SignIn = () => {
-
+  const router = useRouter()
   const handleSubmit =  async(formData: FormData) => {
     const username = formData.get("username")
     const password = formData.get("password")
-    console.log(username, "username");
-    console.log(password, "password");
     const response: AuthPromise | undefined = await signIn({username, password})
     if(response?.tokens){
-      redirect("/dashboard")
-    }    
+        setTimeout(() => {
+          router.push("/dashboard");
+        }, 2000);
+        Notification({text: response?.message, type: "success"})
+      } else {
+        Notification({text: "user with this username is not found!", type: "error"})
+    }
   }
   return (
     <div className="auth__container">
+      <ToastContainer/>
       <div className="auth">
         <form action={handleSubmit} className="auth__form" id="auth">
           <div className="auth__email">

@@ -8,6 +8,7 @@ export interface ISignUpPayload {
 export interface AuthPromise {
     message: string,
     admin: ISignUpPayload,
+    status: number,
     tokens: {access_token: string, refresh_token: string}
 }
 export interface ISignInPayload {

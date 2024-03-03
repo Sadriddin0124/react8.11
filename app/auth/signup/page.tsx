@@ -6,9 +6,13 @@ import { IoIosArrowForward } from "react-icons/io";
 import "@/app/ui/Auth/signUp/signUp.scss";
 import { signUp } from "@/api-service/auth.service";
 import { AuthPromise } from "@/app/types/auth.types";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { Notification } from "@/helpers/notifications.helper";
 const SignIn = () => {
+  const router = useRouter()
   const handleSubmit = async (formData: FormData) => {
     let full_name = formData.get("full_name");
     let username = formData.get("username");
@@ -22,11 +26,17 @@ const SignIn = () => {
     const response: AuthPromise | undefined = await signUp({ ...payload });
     console.log(response);
     if (response?.tokens) {
-      redirect("/auth/signin");
-    }
+      setTimeout(() => {
+        router.push("/auth/signin");
+      }, 2000);
+      Notification({text: response?.message, type: "success"})
+    }else {
+      Notification({text: "username already exists or password mustn't be less than 6 characters", type: "error"})
+  }
   };
   return (
     <div className="auth__container">
+    <ToastContainer />
       <div className="auth">
         <form action={handleSubmit} className="auth__form" id="auth">
           <div className="auth__email">
